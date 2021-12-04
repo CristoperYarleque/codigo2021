@@ -1,0 +1,28 @@
+.subtitulo-general {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.form-control {
+  box-shadow: none !important;
+}
+
+.mr-1 {
+  margin-right: 1rem !important;
+}
+
+.whatsapp {
+  background-color: #fff;
+  text-align: center;
+  font-size: 15px;
+  border: none;
+  margin-top: 2rem;
+}
+
+.whatsapp img {
+  margin-left: 0.5rem;
+}
+
+.whatsapp-icon {
+  margin-top: 13px;
+}

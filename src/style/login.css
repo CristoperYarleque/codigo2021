@@ -1,0 +1,19 @@
+.login-fondo{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-image: url("../assets/img/fondo-login-1.jpg");
+    background-size: cover;
+}
+.login{
+    background-image: url("../assets/img/fondo-login.jpg");
+    background-size: cover;
+    width:60vw;
+    height:60vh;
+    margin:auto;
+    display: flex;
+    flex-direction:column;
+    border-radius:40px;
+    align-items:center;
+    justify-content:center
+}

@@ -1,0 +1,30 @@
+.cat{
+    display: flex;
+}
+.cats{
+    cursor: pointer;
+    color: black;
+}
+.cats:hover{
+    color: rgb(0, 51, 255);
+}
+@media screen and (max-width:768px){
+    .cat{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #detalle-view{
+        width: 65%;
+    }
+}
+.detalle-view{
+    width: 35%;
+}
+.cdk{
+    display: flex;
+    flex-direction: column;
+}
+#imagen-acercade:hover{
+    transform: scale(1.15);
+    transition: all 0.6s;
+}

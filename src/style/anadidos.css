@@ -1,0 +1,12 @@
+@media screen and (max-width:768px){
+    .anad{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .img_anad{
+        width: 200px !important;
+    }
+    .tex_anad{
+        justify-content: center;
+    }
+}

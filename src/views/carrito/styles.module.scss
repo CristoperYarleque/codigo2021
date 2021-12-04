@@ -1,0 +1,35 @@
+.card {
+  box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.52);
+  -webkit-box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.52);
+  -moz-box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.52);
+
+  .cardImagen {
+    width: 80%;
+    height: 150px;
+
+    background-size: cover;
+  }
+
+  .btnDelete {
+    background-color: transparent;
+
+    font-size: 0.9em;
+
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: rgb(245, 122, 122);
+    }
+  }
+
+  .precio {
+    font-size: 1em;
+  }
+}
+
+.message {
+  font-size: 0.8em;
+  line-height: 0.8rem;
+
+  color: rgb(163, 165, 167);
+}
