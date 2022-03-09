@@ -2,7 +2,7 @@ import { obtenerProductos,obtenerCategorias } from "../../services/Services"
 import { useEffect, useState } from "react"
 import "../../style/productos.css"
 
-import Producto from '../producto'
+import Producto from '../producto/index'
 
 export default function Productos() {
     const [productoReal,setProductoReal] = useState([])
@@ -21,10 +21,12 @@ export default function Productos() {
             throw error
         }
     }
+    const productos1 = []
 
     const filtroCat = (idCat) => {
-        const productoFiltrado = productoReal.filter((prod) => prod.categoria_id == idCat)
-        setProductos(productoFiltrado)
+        const productoFiltrado = productoReal.filter((prod) =>prod.categoriaProducto[0] === idCat)
+        productos1.push(productoFiltrado[0])
+        setProductos(productos1)
     }
 
     useEffect(() => {
@@ -52,7 +54,8 @@ export default function Productos() {
             }}>Todos</h5>
             {categorias.map((cat,i) => (
                 <h5 className="mt-1 cats" key={i} onClick={() => {
-                    filtroCat(cat.id)
+                    cat.categoriaProducto.map((cat)=>{
+                        return filtroCat(cat)})
                     setTitulo(cat.nombre)
                 }}>{cat.nombre}</h5>
             ))}

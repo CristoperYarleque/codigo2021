@@ -18,7 +18,7 @@ export default function Carrito() {
         let result = 0
 
         carrito.forEach((item) => {
-            result = result + (item.cantidad * item.producto.precio_juego)
+            result = result + (item.cantidad * item.producto.precio)
         });
 
         setSubTotal(result)
@@ -57,15 +57,15 @@ export default function Carrito() {
                                         return  (
                                             <div className={`${styles.card} row mb-5 py-3`} key={i}>
                                                 <div className="col-md-3">
-                                                    <div style={{backgroundImage: `url(${item.producto ? item.producto.img_juego : null})`}} className={`${styles.cardImagen}`}>
+                                                    <div style={{backgroundImage: `url(${item.producto ? item.producto.imagen : null})`}} className={`${styles.cardImagen}`}>
                                                         {/* <img src={item.producto.imagen} alt="" className="img-fluid" /> */}
                                                     </div>
                                                 </div>
                                                 <div className="col-md-9 text-left">
                                                     <div className="row">
                                                         <div className="col-md-9">
-                                                            <h3 className="small">{item.producto.nom_juego}</h3>
-                                                            <p className="small text-muted">{item.producto.desc_juego}</p>
+                                                            <h3 className="small">{item.producto.nombre}</h3>
+                                                            <p className="small text-muted">{item.producto.descripcion}</p>
                                                         </div> 
 
                                                         <div className="col-md-3">
@@ -81,11 +81,11 @@ export default function Carrito() {
                                                                     <span>{formatoAPrecio(item.producto.precioDescuento)}</span>
                                                                     <span className="small">(Oferta)</span>
                                                                 </h4>) : ''}
-                                                                {item.producto.precio_juego && item.producto.precioDescuento ? (<h4 className={`${styles.precio}`}><span>{formatoAPrecio(item.producto.precioReal)}</span></h4>) : ''}
+                                                                {item.producto.precio && item.producto.precioDescuento ? (<h4 className={`${styles.precio}`}><span>{formatoAPrecio(item.producto.precioReal)}</span></h4>) : ''}
                                                             </div>
 
                                                             {/* Si no existe descuento */}
-                                                            {item.producto.precio_juego && !item.producto.precioDescuento ? (<h4 className={`${styles.precio}`}><span>{formatoAPrecio(item.producto.precio_juego)}</span></h4>) : ''}
+                                                            {item.producto.precio && !item.producto.precioDescuento ? (<h4 className={`${styles.precio}`}><span>{formatoAPrecio(item.producto.precio)}</span></h4>) : ''}
                                                         </div>
                                                     </div>
 

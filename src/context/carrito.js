@@ -54,7 +54,7 @@ const CarritoContextProvider = (props) => {
    * } */
   const anadirACarrito = (nuevoProducto) => {
     const existe = carrito.findIndex(
-      (prod) => prod.producto.id === nuevoProducto.producto.id
+      (prod) => prod.producto._id === nuevoProducto.producto._id
     );
     //-1 si no existe o si existe la posición ó índice, 1 3 0 6
     if (existe === -1) {

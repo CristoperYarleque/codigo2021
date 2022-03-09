@@ -7,7 +7,7 @@ export default function AcercaDe() {
 
     const getData = async () => {
         try {
-            const prodObtenidos = await obtenerProductosPorPagina(1,4)
+            const prodObtenidos = await obtenerProductosPorPagina(10,4)
             setProductos(prodObtenidos)
         } catch (error) {
             throw error
@@ -24,9 +24,9 @@ export default function AcercaDe() {
             <h1 className="text-primary text-center fw-bold">PALACE GAMES</h1>
             <h2 className="text-secondary text-center mt-2 fw-bold">Accede a los juegos al instante</h2>
             <h4 className="text-center text-dark">Disfruta de ofertas exclusivas, actualizaciones automáticas y otras grandes ventajas. Desde grandes compañías hasta estudios independientes pasando por todo lo intermedio.</h4>
-            {productos.map(({img_juego,nom_juego},i) => (
-                <div className="col-sm-10 col-md-6 col-lg-3 d-flex justify-content-center mt-4">
-                    <img id="imagen-acercade" src={img_juego} alt={nom_juego} style={{width:"200px",borderRadius:"10%"}}/>
+            {productos.map(({imagen,nombre},i) => (
+                <div className="col-sm-10 col-md-6 col-lg-3 d-flex justify-content-center mt-4" key={i}>
+                    <img id="imagen-acercade" src={imagen} alt={nombre} style={{width:"200px",borderRadius:"10%"}}/>
                 </div>
             ))}
             <hr className="mt-4" />

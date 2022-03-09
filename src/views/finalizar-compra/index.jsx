@@ -43,7 +43,7 @@ export default function FinalizarCompra() {
         let result = 0
 
         carrito.forEach((item) => {
-            result = result + (item.cantidad * item.producto.precio_juego)
+            result = result + (item.cantidad * item.producto.precio)
         });
 
         setSubTotal(result)
@@ -75,8 +75,8 @@ export default function FinalizarCompra() {
         // Organizar carrito
         let carritoAEnviar = carrito.map(item => {
             return {
-                nombre: item.producto.nom_juego,
-                precio: item.producto.precio_juego,
+                nombre: item.producto.nombre,
+                precio: item.producto.precio,
                 cantidad: item.cantidad
             }
         })

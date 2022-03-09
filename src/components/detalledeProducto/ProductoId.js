@@ -15,16 +15,20 @@ export default function ProductoId() {
   const [categoria, setCategoria] = useState("");
 
   const { anadirACarrito } = useContext(CarritoContext);
-
   const { id } = useParams();
 
   const getProducto = async () => {
     try {
       const prodObtenido = await obtenerProductosPorId(id);
       const catObtenidas = await obtenerCategorias();
-      const catProducto = catObtenidas.find(
-        (cat) => cat.id == prodObtenido.categoria_id
-      );
+      const catProducto = catObtenidas.find((cat) => {
+        const catcat = cat.categoriaProducto.find(
+          (cat1) => cat1 === prodObtenido.categoriaProducto[0]
+        );
+        if (catcat == prodObtenido.categoriaProducto[0]) {
+          return cat;
+        }
+      });
       setProducto(prodObtenido);
       setCategoria(catProducto);
     } catch (error) {
@@ -61,7 +65,7 @@ export default function ProductoId() {
   };
 
   const whatsapp = () => {
-    let texto = `Hola Palace Game estoy interesado en el juego ${producto.nom_juego}`;
+    let texto = `Hola Palace Game estoy interesado en el juego ${producto.nombre}`;
     let url = `https://api.whatsapp.com/send?phone=${+51964711527}&text=${texto}`;
     window.open(url);
   };
@@ -74,7 +78,7 @@ export default function ProductoId() {
     <>
       <div className="text-center my-3 mb-4 text-primary">
         <h2>
-          {categoria?.nombre} - {producto?.nom_juego}
+          {categoria?.nombre} - {producto?.nombre}
         </h2>
       </div>
       <div className="container">
@@ -85,12 +89,12 @@ export default function ProductoId() {
                 <ReactImageMagnify
                   {...{
                     smallImage: {
-                      alt: producto.nom_juego,
+                      alt: producto.nombre,
                       isFluidWidth: true,
-                      src: producto.img_juego,
+                      src: producto.imagen,
                     },
                     largeImage: {
-                      src: producto.img_juego,
+                      src: producto.imagen,
                       width: 1080,
                       height: 720,
                     },
@@ -99,10 +103,10 @@ export default function ProductoId() {
               </div>
 
               <div className="col-12 col-md-6">
-                <h4>{producto.nom_juego}</h4>
-                <h3>S/ {producto.precio_juego}</h3>
+                <h4>{producto.nombre}</h4>
+                <h3>S/ {producto.precio}</h3>
                 <hr />
-                <p>{producto.desc_juego}</p>
+                <p>{producto.descripcion}</p>
                 <div className="d-flex">
                   <button
                     className="btn btn-dark"

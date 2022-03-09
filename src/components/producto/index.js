@@ -37,18 +37,18 @@ export default function Producto({ prod }) {
   return (
     <Link
       style={{ textDecoration: "none" }}
-      to={`/detalle/${prod.id}`}
+      to={`/detalle/${prod._id}`}
       className="card text-center bg-dark "
     >
-      <img src={prod.img_juego} alt={prod.nom_juego} className="img-titulo" />
+      <img src={prod.imagen} alt={prod.nombre} className="img-titulo" />
       <div className="card-body text-light card-cont">
         <h5 className="large">
           <p style={{ textDecoration: "none" }} className="large">
-            {prod.nom_juego}
+            {prod.nombre}
           </p>
         </h5>
         <p className="small text-secondary">
-          {recortarDescripcion(prod.desc_juego)}
+          {recortarDescripcion(prod.descripcion)}
         </p>
         <div className="d-flex justify-content-center">
           <a
@@ -58,7 +58,7 @@ export default function Producto({ prod }) {
           >
             COMPRAR
           </a>
-          <h3 className="ms-4 text-secondary">S/ {prod.precio_juego}.00</h3>
+          <h3 className="ms-4 text-secondary">S/ {prod.precio}.00</h3>
         </div>
       </div>
     </Link>

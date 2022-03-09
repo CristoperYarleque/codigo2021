@@ -19,7 +19,7 @@ export default function Carrito() {
     let result = 0;
 
     carrito.forEach((item) => {
-      result = result + item.cantidad * item.producto.precio_juego;
+      result = result + item.cantidad * item.producto.precio;
     });
 
     setSubTotal(result);
@@ -65,7 +65,7 @@ export default function Carrito() {
                             <div
                               style={{
                                 backgroundImage: `url(${
-                                  item.producto ? item.producto.img_juego : null
+                                  item.producto ? item.producto.imagen : null
                                 })`,
                               }}
                               className={`${styles.cardImagen}`}
@@ -77,10 +77,10 @@ export default function Carrito() {
                             <div className="row">
                               <div className="col-md-9">
                                 <h3 className="small">
-                                  {item.producto.nom_juego}
+                                  {item.producto.nombre}
                                 </h3>
                                 <p className="small text-muted">
-                                  {item.producto.desc_juego}
+                                  {item.producto.descripcion}
                                 </p>
                               </div>
 
@@ -107,7 +107,7 @@ export default function Carrito() {
                                   ) : (
                                     ""
                                   )}
-                                  {item.producto.precio_juego &&
+                                  {item.producto.precio &&
                                   item.producto.precioDescuento ? (
                                     <h4 className={`${styles.precio}`}>
                                       <span>
@@ -122,13 +122,11 @@ export default function Carrito() {
                                 </div>
 
                                 {/* Si no existe descuento */}
-                                {item.producto.precio_juego &&
+                                {item.producto.precio &&
                                 !item.producto.precioDescuento ? (
                                   <h4 className={`${styles.precio}`}>
                                     <span>
-                                      {formatoAPrecio(
-                                        item.producto.precio_juego
-                                      )}
+                                      {formatoAPrecio(item.producto.precio)}
                                     </span>
                                   </h4>
                                 ) : (
