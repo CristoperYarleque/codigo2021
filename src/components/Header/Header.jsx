@@ -87,7 +87,7 @@ return (
                 </div>
 				<div className="d-flex col-xs-8 col-sm-12 col-md-1 col-lg-1 justify-content-center">
 					<div className="d-flex flex-column col-xs-8 col-sm-12 col-md-1 col-lg-1 align-items-end">
-					{ correo ? (<Link to onClick={cerrar} className="Login1 text-danger position-relative" style={{textDecoration:"none"}}>{correo}</Link> ) : (<Link to="/login" className="Login text-success position-relative" style={{textDecoration:"none"}}>Login</Link>)}
+					{ correo ? (<Link to="/" onClick={cerrar} className="Login1 text-danger position-relative" style={{textDecoration:"none"}}>{correo}</Link> ) : (<Link to="/login" className="Login text-success position-relative" style={{textDecoration:"none"}}>Login</Link>)}
 					<Link to="/carrito" className="position-relative Link">
 						<i className="bi bi-cart3 text-white" style={{fontSize:"25px"}}/>
 						<span className="cantidad-carrito-header bg-info d-flex justify-content-center align-items-center">
