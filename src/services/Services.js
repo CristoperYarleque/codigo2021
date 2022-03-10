@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const Url = process.env.REACT_APP_URL;
+const token = `Bearer ${localStorage.getItem("token")}`;
 
 const obtenerProductos = async () => {
   const URL = `${Url}productos`;
@@ -53,9 +54,9 @@ const obtenerProductos1 = async (busqueda = "") => {
 };
 
 const eliminarProducto = async (id) => {
-  const URL = `${Url}producto`;
+  const URL = `${Url}producto/${id}`;
   try {
-    await axios.delete(`${URL}/${id}`);
+    await axios.delete(URL, { headers: { authorization: token } });
     return "Producto Eliminado";
   } catch (error) {
     console.log(error);
@@ -66,6 +67,7 @@ const actualizarProducto = async (id, productoActualizado) => {
   const URL = `${Url}producto/${id}`;
   const headers = {
     "Content-Type": "application/json",
+    "Authorization": token,
   };
   try {
     const { data } = await axios.put(URL, productoActualizado, { headers });
@@ -143,10 +145,11 @@ const registrarProducto = async (nuevoProducto) => {
   const URL = `${Url}producto`;
   const headers = {
     "Content-Type": "application/json",
+    "Authorization": token
   };
   try {
     const { data } = await axios.post(URL, nuevoProducto, {
-      headers,
+      headers
     });
     return data;
   } catch (error) {
@@ -158,18 +161,19 @@ const subirImagen = async (imagen) => {
   const URL = `${Url}archivo`;
   const headers = {
     "Content-Type": "application/json",
+    "Authorization": token
   };
   try {
     const { data } = await axios.post(URL, imagen, { headers });
     return data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const subirS3 = async (urlImagen1, img, headers) => {
   try {
     const { data } = await axios.put(urlImagen1, img, { headers });
     return data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const crearPedido = async (datosFormulario) => {

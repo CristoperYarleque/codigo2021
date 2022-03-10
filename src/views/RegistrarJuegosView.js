@@ -29,7 +29,7 @@ export default function RegistrarJuegosView() {
     descripcion: "",
     cantidad: 0,
     precio: 0,
-    categoriaId: "6226b7e8a03f3bc4a8ad4e8d",
+    // categoriaId: "6226b7e8a03f3bc4a8ad4e8d",
   });
   const [image, setImage] = useState({
     contentType: "",
