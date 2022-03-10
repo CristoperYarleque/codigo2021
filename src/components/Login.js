@@ -41,7 +41,7 @@ export default function Login() {
         showConfirmButton: false,
         timer: 2000,
       });
-      navigate("/admin");
+      navigate("/");
     } else {
       localStorage.setItem("correo", result.usuarioEncontrado.correo);
       Swal.fire({

@@ -76,15 +76,18 @@ return (
 						NOTICIAS
 					    </Link>
                         <Link to="/acercade" className="navbar-item ms-3 Link">
-						ACERCA DE
+						ABOUT
 					    </Link>
+						{localStorage.getItem("token") ? (<Link to="/admin" className="navbar-item text-danger ms-3 Link">
+						ADMIN
+					    </Link>) : null }
 				    </ul>
 					<div id="buscar" className="col-xs-8 col-sm-12 col-md-4 col-lg-4 mt-2 move">
 				    <input type="text" onKeyUp={eventoEnter} value={input} onChange={cambios} ref={buscar} className="form-control ms-2" placeholder="Buscar juego..."/>
                 </div>
 				<div className="d-flex col-xs-8 col-sm-12 col-md-1 col-lg-1 justify-content-center">
 					<div className="d-flex flex-column col-xs-8 col-sm-12 col-md-1 col-lg-1 align-items-end">
-					{ correo ? (<span onClick={cerrar} className="Login1 text-danger position-relative">{correo}</span> ) : (<Link to="/login" className="Login text-success position-relative" style={{textDecoration:"none"}}>Login</Link>)}
+					{ correo ? (<Link to onClick={cerrar} className="Login1 text-danger position-relative" style={{textDecoration:"none"}}>{correo}</Link> ) : (<Link to="/login" className="Login text-success position-relative" style={{textDecoration:"none"}}>Login</Link>)}
 					<Link to="/carrito" className="position-relative Link">
 						<i className="bi bi-cart3 text-white" style={{fontSize:"25px"}}/>
 						<span className="cantidad-carrito-header bg-info d-flex justify-content-center align-items-center">
