@@ -1,7 +1,6 @@
 //componente
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import imagen1 from "../assets/halo5.jpg";
-import { crearCategoriaProducto } from "../services/Services";
 
 export default function FormularioJuego({
   value,
@@ -11,13 +10,13 @@ export default function FormularioJuego({
   categorias,
   rutaImg,
   getRegresar,
-  productoId,
 }) {
   //es una referencia
   //va a ser como trabajar como un id interno de
   //react
   const inputFile = useRef();
 
+  //   console.log(inputFile);
   //   console.log(value);
 
   /*
@@ -25,29 +24,6 @@ export default function FormularioJuego({
         pero se creara un objeto para manejar todos 
         los input
     */
-
-  const [idCategoria, setIdCategoria] = useState();
-  const [idProducto, setIdProducto] = useState();
-  const actualizarInput1 = (e) => {
-    setIdCategoria(e.target.value);
-  };
-
-  const categoriaProducto = {
-    categoriaId: idCategoria,
-    productoId: idProducto,
-  };
-
-  const getData = async (produ) => {
-    const result = await crearCategoriaProducto(produ);
-  };
-
-  const efectuando = async () => {
-    setIdProducto(productoId);
-  };
-
-  useEffect(() => {
-    getData(categoriaProducto);
-  }, [productoId]);
 
   return (
     <div>
@@ -94,7 +70,7 @@ export default function FormularioJuego({
             type="text"
             className="form-control"
             name="descripcion"
-            value={value.desc_juego}
+            value={value.descripcion}
             onChange={(e) => {
               actualizarInput(e);
             }}
@@ -128,16 +104,16 @@ export default function FormularioJuego({
           <label className="form-label">Categoria:</label>
 
           <select
-            value={idCategoria}
+            value={value.categoriaId}
             className="form-select"
-            name="idCategoria"
+            name="categoriaId"
             onChange={(e) => {
-              actualizarInput1(e);
+              actualizarInput(e);
             }}
           >
-            <option selected disabled>
+            {/* <option selected disabled>
               Selecciona
-            </option>
+            </option> */}
             {categorias.map((cat, i) => (
               <option value={cat._id} key={i}>
                 {cat.nombre}
@@ -179,11 +155,7 @@ export default function FormularioJuego({
           )}
         </div>
         <div className="d-flex justify-content-around">
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={efectuando}
-            type="submit"
-          >
+          <button className="btn btn-primary btn-lg" type="submit">
             Guardar
           </button>
           <button className="btn btn-dark btn-lg" onClick={getRegresar}>

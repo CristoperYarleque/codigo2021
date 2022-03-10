@@ -23,11 +23,13 @@ import NotFound from "./views/NotFound";
 import VentasJuegosView from "./views/VentasJuegosView";
 import ListaJuegosView from "./views/ListaJuegosView";
 import Login from "./components/Login";
+import Registro from "./components/Registro";
 import AdminView from "./views/AdminView";
 // import FormularioVentas from "./components/FormularioVentas";
 import RegistrarJuegosView from "./views/RegistrarJuegosView";
 import EditarJuegosView from "./views/EditarJuegosView";
 import EditarVentaJuegosView from "./views/EditarVentaJuegosView";
+import { PrivateRoute, PrivateLogin } from "./PrivateRoute";
 
 export default function App() {
   return (
@@ -46,16 +48,72 @@ export default function App() {
             <Route path="/finalizar-compra" element={<FinalizarCompra />} />
             <Route path="/detalle/:id" element={<ProductoId />} />
             <Route path="/search/:busqueda" element={<Busqueda />} />
-            
-            <Route path="/login" element={<Login/>}/>     
-            <Route path="/admin" element={<AdminView/>}/> 
-            <Route path="/registrarJuego" element={<RegistrarJuegosView/>} />        
-            <Route path="/editarJuego/:id" element={<EditarJuegosView/>}/>      
-            <Route path="/listajuegos" element={<ListaJuegosView/>}/>            
-            <Route path="/ventasJuegos" element={<VentasJuegosView/>}/>       
-            <Route path="/editarventas/:id" element={<EditarVentaJuegosView/>}/>
-            
 
+            <Route
+              path="/login"
+              element={
+                <PrivateLogin>
+                  <Login />
+                </PrivateLogin>
+              }
+            />
+            <Route
+              path="/registro"
+              element={
+                <PrivateLogin>
+                  <Registro />
+                </PrivateLogin>
+              }
+            />
+
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute>
+                  <AdminView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/registrarJuego"
+              element={
+                <PrivateRoute>
+                  <RegistrarJuegosView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/editarJuego/:id"
+              element={
+                <PrivateRoute>
+                  <EditarJuegosView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/listajuegos"
+              element={
+                <PrivateRoute>
+                  <ListaJuegosView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/ventasJuegos"
+              element={
+                <PrivateRoute>
+                  <VentasJuegosView />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/editarventas/:id"
+              element={
+                <PrivateRoute>
+                  <EditarVentaJuegosView />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </div>
         <Footer />

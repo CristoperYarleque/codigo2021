@@ -1,37 +1,83 @@
-.nav{
-    background-color: black;
+.nav {
+  background-color: black;
 }
-.move{
-    position: relative;
+.move {
+  position: relative;
 }
-.lupa{
-    position: absolute;
+.lupa {
+  position: absolute;
+  top: 0;
+  right: 20px;
+}
+img,
+i {
+  cursor: pointer;
+}
+.Link {
+  text-decoration: none;
+  color: white;
+  top: -10px;
+  left: 10px;
+}
+.Login {
+  top: -12px;
+  left: -30px;
+}
+.Login1 {
+  top: -12px;
+  left: -30px;
+}
+.Link:hover {
+  color: yellow;
+}
+@media (min-width: 1050px) {
+  #buscar {
+    margin-left: 10vw;
+  }
+  #links {
+    margin-left: 7vw;
+  }
+}
+@media (min-width: 850px) and (max-width: 1050px) {
+  #buscar {
+    margin-left: 5vw;
+  }
+  #links {
+    margin-left: 3vw;
+  }
+}
+@media (min-width: 764px) and (max-width: 950px) {
+  .Login1 {
+    top: -12px;
+    left: -30%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 764px) {
+  .Link {
+    left: -47%;
     top: 0;
-    right: 20px;
+  }
+  .Login {
+    top: 0;
+    left: -46%;
+  }
+  .Login1 {
+    top: 0;
+    left: -30%;
+  }
 }
-img,i{
-    cursor: pointer;
-}
-.Link{
-    text-decoration: none;
-    color: white;
-}
-.Link:hover{
-    color:yellow;
-}
-@media (min-width:1050px){
-    #buscar{
-        margin-left: 10vw;
-    }
-    #links{
-        margin-left: 7vw;
-    }
-}
-@media (min-width:850px) and (max-width:1050px){
-    #buscar{
-        margin-left: 5vw;
-    }
-    #links{
-        margin-left: 3vw;
-    }
+@media (max-width: 576px) {
+  .Link {
+    left: -40%;
+    top: 0;
+  }
+  .Login {
+    top: 0;
+    left: 30%;
+  }
+  .Login1 {
+    top: 0;
+    left: 0%;
+  }
 }

@@ -53,9 +53,23 @@ const obtenerProductos1 = async (busqueda = "") => {
 };
 
 const eliminarProducto = async (id) => {
+  const URL = `${Url}producto`;
   try {
-    await axios.delete(`${Url}/${id}`);
+    await axios.delete(`${URL}/${id}`);
     return "Producto Eliminado";
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const actualizarProducto = async (id, productoActualizado) => {
+  const URL = `${Url}producto/${id}`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.put(URL, productoActualizado, { headers });
+    return data;
   } catch (error) {
     console.log(error);
   }
@@ -74,27 +88,88 @@ const crearCategoriaProducto = async (nuevaCategoriaProducto) => {
   }
 };
 
-const registrarProducto = async (nuevoProducto) => {
+const login = async (usuario) => {
+  const URL = `${Url}login`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
   try {
-    //creamos las cabeceras
+    const { data } = await axios.post(URL, usuario, { headers });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const validarCorreo = async (correo) => {
+  const URL = `${Url}validar-correo`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.post(URL, correo, { headers });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const registro = async (usuario) => {
+  const URL = `${Url}registro`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.post(URL, usuario, { headers });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const eliminarCategoriaProducto = async (datosEliminados) => {
+  const URL = `${Url}categoria-producto`;
+  try {
     const headers = {
       "Content-Type": "application/json",
     };
+    await axios.delete(URL, { data: datosEliminados }, { headers });
+  } catch (error) {
+    throw error;
+  }
+};
 
-    //axios siempre me va devolver la propiedad
-    //data, donde esta la respuesta del
-    //serviodor axios cuando hace POST,
-    //PUT necesita no solo la URL va necesitar
-    //los headers y la data
-    //axios.post(URL, objCrear, {headers})
-
-    const { data } = await axios.post(`${Url}producto`, nuevoProducto, {
+const registrarProducto = async (nuevoProducto) => {
+  const URL = `${Url}producto`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.post(URL, nuevoProducto, {
       headers,
     });
     return data;
   } catch (error) {
     console.log(error);
   }
+};
+
+const subirImagen = async (imagen) => {
+  const URL = `${Url}archivo`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.post(URL, imagen, { headers });
+    return data;
+  } catch (error) {}
+};
+
+const subirS3 = async (urlImagen1, img, headers) => {
+  try {
+    const { data } = await axios.put(urlImagen1, img, { headers });
+    return data;
+  } catch (error) {}
 };
 
 const crearPedido = async (datosFormulario) => {
@@ -119,5 +194,12 @@ export {
   eliminarProducto,
   registrarProducto,
   crearCategoriaProducto,
+  eliminarCategoriaProducto,
+  subirImagen,
+  actualizarProducto,
+  subirS3,
+  login,
+  validarCorreo,
+  registro,
   crearPedido,
 };
