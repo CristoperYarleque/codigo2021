@@ -29,7 +29,7 @@ import AdminView from "./views/AdminView";
 import RegistrarJuegosView from "./views/RegistrarJuegosView";
 import EditarJuegosView from "./views/EditarJuegosView";
 import EditarVentaJuegosView from "./views/EditarVentaJuegosView";
-import { PrivateRoute, PrivateLogin } from "./PrivateRoute";
+import { PrivateRoute, PrivateLogin, PrivateSesion } from "./PrivateRoute";
 
 export default function App() {
   return (
@@ -45,7 +45,10 @@ export default function App() {
             <Route path="/noticias" element={<Noticias />} />
             <Route path="/acercade" element={<AcercaDe />} />
             <Route path="/carrito" element={<Carrito />} />
-            <Route path="/finalizar-compra" element={<FinalizarCompra />} />
+            <Route path="/finalizar-compra" element={
+              <PrivateSesion>
+                <FinalizarCompra />
+              </PrivateSesion>} />
             <Route path="/detalle/:id" element={<ProductoId />} />
             <Route path="/search/:busqueda" element={<Busqueda />} />
 

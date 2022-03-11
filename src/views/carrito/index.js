@@ -1,21 +1,50 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
+
+import Swal from "sweetalert2"
 
 import { formatoAPrecio } from "../../utilidades/set-precio";
 
 import { CarritoContext } from "../../context/carrito";
-
+import { validarCorreo } from "../../services/Services"
 import styles from "./styles.module.scss";
 
 export default function Carrito() {
   const { carrito, limpiarCarrito } = useContext(CarritoContext);
   const [subTotal, setSubTotal] = useState(0);
+  const [correo, setCorreo] = useState()
+
+  const validar = async () => {
+    const envio = { correo: localStorage.getItem("correo") }
+    const result = await validarCorreo(envio)
+    if (result.message === "existe") {
+      setCorreo(result.correo)
+    }
+  }
+  const navigate = useNavigate()
+  console.log(correo);
+  const clickCompra = async () => {
+    if (correo) {
+      navigate("/finalizar-compra")
+    } else {
+      await Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Falta Login",
+        text: "Para continuar tiene que logearse¡¡¡¡",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      navigate("/login")
+    }
+  }
 
   const { eliminarProducto } = useContext(CarritoContext);
 
   useEffect(() => {
+    validar()
     let result = 0;
 
     carrito.forEach((item) => {
@@ -64,9 +93,8 @@ export default function Carrito() {
                           <div className="col-md-3">
                             <div
                               style={{
-                                backgroundImage: `url(${
-                                  item.producto ? item.producto.imagen : null
-                                })`,
+                                backgroundImage: `url(${item.producto ? item.producto.imagen : null
+                                  })`,
                               }}
                               className={`${styles.cardImagen}`}
                             >
@@ -108,7 +136,7 @@ export default function Carrito() {
                                     ""
                                   )}
                                   {item.producto.precio &&
-                                  item.producto.precioDescuento ? (
+                                    item.producto.precioDescuento ? (
                                     <h4 className={`${styles.precio}`}>
                                       <span>
                                         {formatoAPrecio(
@@ -123,7 +151,7 @@ export default function Carrito() {
 
                                 {/* Si no existe descuento */}
                                 {item.producto.precio &&
-                                !item.producto.precioDescuento ? (
+                                  !item.producto.precioDescuento ? (
                                   <h4 className={`${styles.precio}`}>
                                     <span>
                                       {formatoAPrecio(item.producto.precio)}
@@ -167,13 +195,13 @@ export default function Carrito() {
                           El costo de despacho no está incluido en el precio
                         </p>
 
-                        <Link
-                          to="/finalizar-compra"
+                        <span
+                          onClick={clickCompra}
                           className="btn btn-success w-100 mt-3"
                         >
                           FINALIZAR COMPRA &nbsp;
                           <i class="fas fa-location-arrow"></i>
-                        </Link>
+                        </span>
                       </div>
                     </div>
                   </div>

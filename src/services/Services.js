@@ -177,7 +177,7 @@ const subirS3 = async (urlImagen1, img, headers) => {
 };
 
 const crearPedido = async (datosFormulario) => {
-  const URL = "https://6195c89174c1bd00176c6e8e.mockapi.io/ventasJuegos";
+  const URL = `${Url}venta-producto`;
   try {
     const { data } = await axios.post(URL, {
       ...datosFormulario,
@@ -188,6 +188,39 @@ const crearPedido = async (datosFormulario) => {
     return false;
   }
 };
+
+const obtenerVentas = async () => {
+  const URL = `${Url}ventas`
+  try {
+    const { data } = await axios.get(URL)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const obtenerVentaPorId = async (id) => {
+  const URL = `${Url}venta/${id}`
+  try {
+    const { data } = await axios.get(URL)
+    return data
+  } catch (error) {
+    throw error;
+  }
+}
+
+const editarVentaPorId = async (id, objVenta) => {
+  const URL = `${Url}venta/${id}`
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    await axios.put(URL, objVenta, { headers });
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export {
   obtenerProductos,
@@ -206,4 +239,7 @@ export {
   validarCorreo,
   registro,
   crearPedido,
+  obtenerVentas,
+  obtenerVentaPorId,
+  editarVentaPorId,
 };

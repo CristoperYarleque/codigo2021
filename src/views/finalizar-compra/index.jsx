@@ -1,8 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link,Navigate,useNavigate } from "react-router-dom"
 
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+
+import {validarCorreo} from "../../services/Services"
 
 import { formatoAPrecio } from '../../utilidades/set-precio'
 
@@ -14,7 +16,7 @@ import styles from './styles.module.scss'
 export default function FinalizarCompra() {
     const { carrito, limpiarCarrito } = useContext(CarritoContext);
     const [subTotal, setSubTotal] = useState(0)
-    const [user, setUser] = useState(true)
+    const [user, setUser] = useState()
     const [loading, setLoading] = useState(false)
 
     const [form, setForm] = useState({
@@ -29,6 +31,21 @@ export default function FinalizarCompra() {
         fechaVencimiento: "",
         ccv: ""
     })
+    const [correo,setCorreo] = useState()
+
+    const validar = async () => {
+        const envio = { correo: localStorage.getItem("correo") }
+        const result = await validarCorreo(envio)
+        
+        if (result.message === "existe") {
+          setCorreo(result.correo)
+          setUser(result.correo)
+          setForm({
+              ...form,
+              email: result.correo
+          })
+        }
+      }
 
     const actualizarInput = (e) => {
         setForm({
@@ -40,6 +57,7 @@ export default function FinalizarCompra() {
     const { eliminarProducto } = useContext(CarritoContext);
     
     useEffect(() => {
+        validar()
         let result = 0
 
         carrito.forEach((item) => {
@@ -48,7 +66,6 @@ export default function FinalizarCompra() {
 
         setSubTotal(result)
       }, [carrito])
-
     const eliminarDeCarrito = (index) => {
         eliminarProducto(index)
 
@@ -71,7 +88,6 @@ export default function FinalizarCompra() {
         let data = {
             ...form
         }
-
         // Organizar carrito
         let carritoAEnviar = carrito.map(item => {
             return {
@@ -84,8 +100,6 @@ export default function FinalizarCompra() {
         data.juegos = carritoAEnviar
         data.total = subTotal
         data.estado_id = "1"
-        data.coordenadas = [-12.149882, -76.99093]
-
         // Eliminar campos innecesarios
         delete data.nroTarjeta
         delete data.fechaVencimiento
@@ -93,7 +107,7 @@ export default function FinalizarCompra() {
 
         setTimeout(async () => {
             const resultado = await crearPedido(data)
-
+            console.log("resultado",resultado);
             if(resultado) {
                 limpiarCarrito();
 
@@ -116,11 +130,14 @@ export default function FinalizarCompra() {
                     'success'
                 )
             } else {
-                Swal.fire(
-                    'Ups! Ocurrió un error',
-                    'Al parecer hubo un error al procesar la compra, por favor inténtelo nuevamente',
-                    'success'
-                )
+                await Swal.fire({
+                    position: "top-center",
+                    icon: "Error",
+                    title: "Hubo un Error",
+                    text: "Complete datos Correctamente¡¡¡¡",
+                    showConfirmButton: false,
+                    timer: 2000,
+                  });
             }
 
             setLoading(false)
@@ -142,7 +159,7 @@ export default function FinalizarCompra() {
                                             <input type="text" id="nombreCompleto" name="nombreCompleto" required placeholder="Nombre completo" value={form.nombreCompleto} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
                                         </div>
                                         <div className="form-group mb-3">
-                                            <input type="email" id="email" name="email" required placeholder="Correo electrónico" value={form.email} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
+                                            <input type="email" id="email" name="email" required placeholder="Correo electrónico" disabled value={correo} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
                                         </div>
 
                                         <div className="form-group mb-3">
@@ -152,7 +169,8 @@ export default function FinalizarCompra() {
                                         {/* <div className="form-group mb-3">
                                             <textarea id="observaciones" name="observaciones" required placeholder="Observaciones" className="form-control"></textarea>
                                         </div> */}
-                                </section>) : (<p>Debe iniciar sesión para continuar finalizar su compra</p>)}
+                                </section>
+                                ) : (<p>Debe iniciar sesión para continuar finalizar su compra</p>)}
                             </div>
                             <div className="col-md-4">
                                 {user ? (
@@ -173,7 +191,7 @@ export default function FinalizarCompra() {
                                         <div className="form-group mb-3">
                                             <input type="text" id="direccion" name="direccion" required placeholder="Dirección de envío" className="form-control py-3" value={form.direccion} onChange={(e) => {actualizarInput(e)}} />
                                         </div>
-                                </section>) : (<p>Debe iniciar sesión para continuar finalizar su compra</p>)}
+                                </section>) : null}
                             </div>
 
                             <div className="col-md-4">
@@ -182,7 +200,7 @@ export default function FinalizarCompra() {
                                     <div className="d-flex align-items-center">
                                         <p className="text-muted m-0 mr-1">Datos de pago</p>
                                         <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" width="40px" className="d-inline-block mr-1" />
-                                        <img src="https://cdn-icons.flaticon.com/png/512/177/premium/177025.png?token=exp=1638588983~hmac=203e22c2aeb23b93ce3a9ec278132f2f" width="40px" />
+                                        <img src="https://newsroom.mastercard.com/latin-america/files/2016/07/Linkedin_MC.jpg" width="40px" />
                                     </div>
                                     <section>
                                     {/* <PayPalButton
@@ -216,7 +234,7 @@ export default function FinalizarCompra() {
                                             <i class="fas fa-location-arrow"></i>
                                         </button>
                                     </section>
-                                </section>) : (<p>Debe iniciar sesión para continuar finalizar su compra</p>)}
+                                </section>) : null}
                             </div>
                         </div>
                     </form>) : (

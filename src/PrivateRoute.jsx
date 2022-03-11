@@ -41,8 +41,8 @@ export const PrivateLogin = ({children}) => {
                 const result = {
                     correo: localStorage.getItem("correo")
                 }
-                console.log(result);
                 const data = await validarCorreo(result)
+                console.log(data);
                 if(data.message === "existe"){
                     setCorreo(data.correo)
                 }else if(data.message === "no existe"){
@@ -64,4 +64,37 @@ export const PrivateLogin = ({children}) => {
         }
     },[])
     return correo ? <Navigate to={'/'}/> : children
+}
+
+export const PrivateSesion = ({children}) => {
+    const [correo,setCorreo] = useState(localStorage.getItem("correo"))
+
+    useEffect(async ()=> {
+        if(localStorage.getItem("correo")){
+            try {
+                const result = {
+                    correo: localStorage.getItem("correo")
+                }
+                const data = await validarCorreo(result)
+                if(data.message === "existe"){
+                    setCorreo(data.correo)
+                }else if(data.message === "no existe"){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Correo Incorrecto",
+                        text: "ADIOS",
+                        showConfirmButton: false,
+                        timer: 2000,
+                      });
+                localStorage.removeItem('nombre')
+                localStorage.removeItem('apellido')
+                localStorage.removeItem('correo')
+                setCorreo(null)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    },[])
+    return correo ? children : <Navigate to={"/login"}/>
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { obtenerVentaPorId, editarVentaPorId } from "../services/ventasService";
-import {obtenerEstado, obtenerEstadoPorId} from "../services/estadoServices";
+import { obtenerVentaPorId, editarVentaPorId } from "../services/Services"
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import FormularioVentas from "../components/FormularioVentas";
@@ -16,103 +15,74 @@ export default function EditarVentaJuegosView() {
         provincia: "",
         distrito: "",
         direccion: "",
-        coordenadas: [],
         juegos: [],
         total: 0,
         estado_id: ""
     })
-    
-    //estado actual de venta del pedido
     const [estado, setEstado] = useState("");
-
-    //estados de venta
-    const [estadoP, setEstadoP] = useState([]);    
-
-    //usamos useParams para obtener el id de la 
-    //venta a consultar
-    const {id} = useParams();
-
-    //coordenadas
-    let coord=[0,0]
-
-    //
+    const { id } = useParams();
     const navigate = useNavigate()
-
-    //manejando formulario    
-    //const {register, handleSubmit} = useForm();
-    
-    //consultadmos la venta por id
-    const getVentas = async() =>{
+    const getVentas = async () => {
         try {
             const ventaObt = await obtenerVentaPorId(id);
             setValue(ventaObt);
-            //console.log(ventaObt.estado_id)
-            //todos los estados
-            const estadoObt = await obtenerEstado();
-            setEstadoP(estadoObt);
-            //coord = Array.from(ventaObt.coordenadas)
-            //el estado de la venta
-            const { nombre} = await obtenerEstadoPorId(ventaObt.estado_id);   
-            setEstado(nombre)
+            if (ventaObt.estado_id === "1") {
+                setEstado("ADMITIDO")
+            } else if (ventaObt.estado_id === "2") {
+                setEstado("EN ESPERA")
+            } else if (ventaObt.estado_id === "3") {
+                setEstado("EN CAMINO")
+            } else if (ventaObt.estado_id === "4") {
+                setEstado("ENTREGADO")
+            }
         } catch (error) {
             console.log("error")
         }
-        
+
     }
 
-    const manejarSubmit = async (e) => {
-            e.preventDefault();
-            try {
-                await editarVentaPorId(id, {value});
+    const manejarActualizacion = async () => {
+        try {
+            const result = await editarVentaPorId(id, value);
+            if (result) {
                 await Swal.fire({
                     icon: "success",
                     title: "Éxito",
                     text: "Producto Editado Exitosamente",
                 });
-            } catch (error) {
-                console.log(error);
+                navigate("/ventasJuegos")
             }
-        };
-        
-    //actualizar el estado de la compra
-    const actualizarInput = (e)=>{
-        //console.log(e, e.target.name, e.target.value);
-        //usando el setValue para actualizar
-        //pasamos un objeto y spread de value que
-        //es un objeto
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const actualizarInput = (e) => {
         setValue({
             ...value,
-            //pasamos el nombre y el valor
             [e.target.name]: e.target.value,
         });
     }
 
-    
-    
-    //función que nos permite regresar
-    const getRegresar = ()=>{
-        //despues de crear el producto se hace
-        //un navigate a la ListaProductoView
-        //home
+    const getRegresar = () => {
         navigate("/ventasJuegos");
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getVentas()
-    },[])
+    }, [])
 
     return (
         <div className="bg-dark">
             <div className="container col-md-11 bg-light">
-                <FormularioVentas 
-                            value={value} 
-                            actualizarInput={actualizarInput}
-                            manejarSubmit={manejarSubmit} 
-                            estadoP={estadoP}
-                            estado={estado}
-                            getRegresar={getRegresar}
-                />  
-            </div>          
-    </div>
+                <FormularioVentas
+                    value={value}
+                    actualizarInput={actualizarInput}
+                    estado={estado}
+                    getRegresar={getRegresar}
+                    manejarActualizacion={manejarActualizacion}
+                />
+            </div>
+        </div>
     )
 }

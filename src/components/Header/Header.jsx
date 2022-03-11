@@ -13,11 +13,7 @@ export default function Header() {
 	const buscar = useRef()
 	const navigate = useNavigate()
 	const [correo,setCorreo] = useState()
-
-	// const eventoClick = () => {
-	// 	navigate(`/search/${buscar.current.value}`)
-	// 	setInput("")
-	// }
+	
 	const validar = async () => {
 		const envio = { correo: localStorage.getItem("correo")}
 		const result = await validarCorreo(envio)

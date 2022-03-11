@@ -11,7 +11,6 @@ import {
 } from "../services/Services";
 import FormularioJuego from "../components/FormularioJuego";
 import Swal from "sweetalert2";
-import axios from "axios";
 
 //basicamente es una ariable global que no
 //esta definida
