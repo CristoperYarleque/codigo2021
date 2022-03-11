@@ -49,6 +49,7 @@ export default function VentasJuegosView() {
         )
 
         setVentas(estadosFiltrados);
+
     }
 
 
@@ -120,9 +121,9 @@ export default function VentasJuegosView() {
                                     <button
                                         className="btn btn-outline-dark my-1"
                                         key={i}
-                                    // onClick={() => {
-                                    //     filtrarPorEstado(esta.id);
-                                    // }}
+                                        onClick={() => {
+                                            filtrarPorEstado(esta.value);
+                                        }}
                                     >
                                         {
                                             esta.nombre
