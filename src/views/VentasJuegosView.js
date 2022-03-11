@@ -16,12 +16,14 @@ export default function VentasJuegosView() {
     const [ventas, setVentas] = useState([])
 
     //estado de categorias de juego
-    const [estado, setEstado] = useState([
-        "ADMITIDO",
-        "EN ESPERA",
-        "EN CAMINO",
-        "ENTREGADO"
+    const [estado1, setEstado1] = useState([
+        { nombre: "ADMITIDO", value: "1" },
+        { nombre: "EN PROCESO", value: "2" },
+        { nombre: "EN CAMINO", value: "3" },
+        { nombre: "ENTREGADO", value: "4" }
     ])
+
+    const [estado, setEstado] = useState([])
 
     //
     const navigate = useNavigate()
@@ -114,7 +116,7 @@ export default function VentasJuegosView() {
                             </button>
                             {
 
-                                estado.map((esta, i) => (
+                                estado1.map((esta, i) => (
                                     <button
                                         className="btn btn-outline-dark my-1"
                                         key={i}
@@ -123,7 +125,7 @@ export default function VentasJuegosView() {
                                     // }}
                                     >
                                         {
-                                            esta
+                                            esta.nombre
                                         }
                                     </button>
                                 )
