@@ -16,7 +16,12 @@ export default function VentasJuegosView() {
     const [ventas, setVentas] = useState([])
 
     //estado de categorias de juego
-    const [estado, setEstado] = useState([])
+    const [estado, setEstado] = useState([
+        "ADMITIDO",
+        "EN ESPERA",
+        "EN CAMINO",
+        "ENTREGADO"
+    ])
 
     //
     const navigate = useNavigate()
@@ -113,12 +118,12 @@ export default function VentasJuegosView() {
                                     <button
                                         className="btn btn-outline-dark my-1"
                                         key={i}
-                                        onClick={() => {
-                                            filtrarPorEstado(esta.id);
-                                        }}
+                                    // onClick={() => {
+                                    //     filtrarPorEstado(esta.id);
+                                    // }}
                                     >
                                         {
-                                            esta.nombre
+                                            esta
                                         }
                                     </button>
                                 )

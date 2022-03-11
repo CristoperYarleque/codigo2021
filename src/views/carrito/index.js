@@ -24,7 +24,6 @@ export default function Carrito() {
     }
   }
   const navigate = useNavigate()
-  console.log(correo);
   const clickCompra = async () => {
     if (correo) {
       navigate("/finalizar-compra")
