@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { Link,Navigate,useNavigate } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import {validarCorreo} from "../../services/Services"
+import {validarCorreo,facturacion} from "../../services/Services"
 
 import { formatoAPrecio } from '../../utilidades/set-precio'
 
@@ -19,6 +19,7 @@ export default function FinalizarCompra() {
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(false)
 
+     
     const [form, setForm] = useState({
         nombreCompleto: "",
         telefono: "",
@@ -26,17 +27,56 @@ export default function FinalizarCompra() {
         departamento: "",
         provincia: "",
         distrito: "",
-        direccion: "",
         nroTarjeta: "",
         fechaVencimiento: "",
-        ccv: ""
+        ccv: "",
+        dni: "",
+        zip:"",
+        calle: "",
+        numero: "",
     })
+
+    const [enviar,setEnviar] = useState({
+        nombreCompleto: "",
+        telefono: "",
+        email: "",
+        departamento: "",
+        provincia: "",
+        distrito: "",
+        nroTarjeta: "",
+        fechaVencimiento: "",
+        ccv: "",
+        direccion : ""
+    })
+
+    const navigate = useNavigate()
+    
     const [correo,setCorreo] = useState()
+    const [comprobante,setComprobante] = useState({
+        items: datos,
+        cliente: "",
+        tipo: "BOLETA",
+        tipo_documento:"DNI",
+        numero_documento:"",
+        direccion:{
+            zipcode:"",
+            calle:"",
+            numero:0,
+        }
+    })
+    
+    const data11 = []
+    const datos = carrito.map((item) => {
+        return data11.push({
+                "id":item.producto._id.toString(),
+                "cantidad": item.cantidad
+        })
+    })
 
     const validar = async () => {
         const envio = { correo: localStorage.getItem("correo") }
         const result = await validarCorreo(envio)
-        
+        setComprobante({...comprobante,cliente:result.usuario._id.toString()})
         if (result.message === "existe") {
           setCorreo(result.correo)
           setUser(result.correo)
@@ -47,11 +87,36 @@ export default function FinalizarCompra() {
         }
       }
 
+
     const actualizarInput = (e) => {
+        const direccion = `${form.calle} ${+form.numero}`
         setForm({
             ...form, //cogiendo el estado de value, spreadoperator
-            [e.target.name]: e.target.value,
-        });
+            [e.target.name]: e.target.value
+        });   
+        const previos =  {
+            ...comprobante,
+            items:data11    ,
+            numero_documento:form.dni,
+            direccion:{
+                zip:form.zip,
+                calle:form.calle,
+                numero:+form.numero,
+            }
+        }
+        setEnviar({
+            direccion,
+            nombreCompleto: form.nombreCompleto,
+        telefono: form.telefono,
+        email: form.email,
+        departamento: form.departamento,
+        provincia: form.provincia,
+        distrito: form.distrito,
+        nroTarjeta: form.nroTarjeta,
+        fechaVencimiento: form.fechaVencimiento,
+        ccv: form.ccv,
+        })
+        setComprobante(previos)
     }
  
     const { eliminarProducto } = useContext(CarritoContext);
@@ -82,11 +147,10 @@ export default function FinalizarCompra() {
 
     const submit = async e => {
         e.preventDefault()
-
+        
         setLoading(true)
-
         let data = {
-            ...form
+            ...enviar,
         }
         // Organizar carrito
         let carritoAEnviar = carrito.map(item => {
@@ -96,18 +160,20 @@ export default function FinalizarCompra() {
                 cantidad: item.cantidad
             }
         })
-
         data.juegos = carritoAEnviar
         data.total = subTotal
         data.estado_id = "1"
-        // Eliminar campos innecesarios
+
+        const res = await facturacion(comprobante)
+        data.idBoleta = res.comprobante._id
+        
         delete data.nroTarjeta
         delete data.fechaVencimiento
         delete data.ccv
-
+        
+        if(res.data.enlace){
         setTimeout(async () => {
             const resultado = await crearPedido(data)
-            console.log("resultado",resultado);
             if(resultado) {
                 limpiarCarrito();
 
@@ -117,11 +183,15 @@ export default function FinalizarCompra() {
                     email: "",
                     departamento: "",
                     provincia: "",
-                    distrito: "",
-                    direccion: "",
+                     distrito: "",
                     nroTarjeta: "",
                     fechaVencimiento: "",
-                    ccv: ""
+                    ccv: "",
+                    dni: "",
+                    zipcode:"",
+                    calle: "",
+                    numero: "",
+                    direccion : ""
                 })
 
                 Swal.fire(
@@ -141,7 +211,7 @@ export default function FinalizarCompra() {
             }
 
             setLoading(false)
-        }, 2000)
+        }, 2000)}
     }
 
     return (
@@ -158,12 +228,22 @@ export default function FinalizarCompra() {
                                         <div className="form-group mb-3">
                                             <input type="text" id="nombreCompleto" name="nombreCompleto" required placeholder="Nombre completo" value={form.nombreCompleto} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
                                         </div>
+
+                                        <div className="form-group mb-3">
+                                            <input type="text" id="dni" name="dni" required placeholder="DNI" value={form.dni} maxLength="8" className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
+                                        </div>
+
+
                                         <div className="form-group mb-3">
                                             <input type="email" id="email" name="email" required placeholder="Correo electrónico" disabled value={correo} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
                                         </div>
 
                                         <div className="form-group mb-3">
                                             <input type="number" id="telefono" name="telefono" required placeholder="Celular" className="form-control py-3" value={form.telefono} onChange={(e) => {actualizarInput(e)}} />
+                                        </div>
+
+                                        <div className="form-group mb-3">
+                                            <input type="text" id="zip" name="zip" required placeholder="Codigo Postal" maxLength="8" value={form.zip} className="form-control py-3" onChange={(e) => {actualizarInput(e)}} />
                                         </div>
 
                                         {/* <div className="form-group mb-3">
@@ -189,7 +269,11 @@ export default function FinalizarCompra() {
                                         </div>
 
                                         <div className="form-group mb-3">
-                                            <input type="text" id="direccion" name="direccion" required placeholder="Dirección de envío" className="form-control py-3" value={form.direccion} onChange={(e) => {actualizarInput(e)}} />
+                                            <input type="text" id="calle" name="calle" required placeholder="Calle" className="form-control py-3" value={form.calle} onChange={(e) => {actualizarInput(e)}} />
+                                        </div>
+
+                                        <div className="form-group mb-3">
+                                            <input type="text" id="numero" name="numero" required placeholder="numero" max="5" className="form-control py-3" value={form.numero} onChange={(e) => {actualizarInput(e)}} />
                                         </div>
                                 </section>) : null}
                             </div>

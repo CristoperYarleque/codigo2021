@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { obtenerVentaPorId, editarVentaPorId } from "../services/Services"
+import { obtenerVentaPorId, editarVentaPorId, obtenerFacturacion } from "../services/Services"
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import FormularioVentas from "../components/FormularioVentas";
@@ -17,14 +17,27 @@ export default function EditarVentaJuegosView() {
         direccion: "",
         juegos: [],
         total: 0,
-        estado_id: ""
+        estado_id: "",
+    })
+    const [boleta11, setBoleta11] = useState({
+        tipo: "",
+        enlace: "",
+        pdf: "",
+        xml: ""
     })
     const [estado, setEstado] = useState("");
     const { id } = useParams();
     const navigate = useNavigate()
+
+    const boleta = async (idBol) => {
+        const resultado = await obtenerFacturacion(idBol)
+        setBoleta11(resultado)
+    }
+
     const getVentas = async () => {
         try {
             const ventaObt = await obtenerVentaPorId(id);
+            boleta(ventaObt.idBoleta)
             setValue(ventaObt);
             if (ventaObt.estado_id === "1") {
                 setEstado("ADMITIDO")
@@ -38,9 +51,9 @@ export default function EditarVentaJuegosView() {
         } catch (error) {
             console.log("error")
         }
-
     }
 
+    console.log(boleta11);
     const manejarActualizacion = async () => {
         try {
             const result = await editarVentaPorId(id, value);
@@ -81,6 +94,7 @@ export default function EditarVentaJuegosView() {
                     estado={estado}
                     getRegresar={getRegresar}
                     manejarActualizacion={manejarActualizacion}
+                    boleta11={boleta11}
                 />
             </div>
         </div>

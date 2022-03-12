@@ -222,6 +222,29 @@ const editarVentaPorId = async (id, objVenta) => {
   }
 }
 
+const facturacion = async (productos) => {
+  const URL = `${Url}crear-comprobante`
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const { data } = await axios.post(URL, productos, { headers });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const obtenerFacturacion = async (id) => {
+  const URL = `${Url}obtener-comprobante/${id}`
+  try {
+    const { data } = await axios.get(URL);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export {
   obtenerProductos,
   obtenerCategorias,
@@ -241,5 +264,7 @@ export {
   crearPedido,
   obtenerVentas,
   obtenerVentaPorId,
+  facturacion,
+  obtenerFacturacion,
   editarVentaPorId,
 };

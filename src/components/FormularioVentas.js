@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-export default function FormularioVentas({ value, actualizarInput, estado, manejarActualizacion }) {
+export default function FormularioVentas({ value, actualizarInput, estado, manejarActualizacion, boleta11 }) {
 
 
     //
@@ -155,10 +155,21 @@ export default function FormularioVentas({ value, actualizarInput, estado, manej
                                 </select>
                             </div>
                         </div>
-                        <div className="d-flex flex-wrap">
-                            <h4>
-                                Referencias :
-                            </h4>
+                        <div className="">
+                            <div></div>
+                            <h3>
+                                Comprobantes:
+                            </h3>
+                            <h6>Tipo: {boleta11.tipo}</h6>
+                            <div>
+                                <h6>Link Enlace: <a href={boleta11.enlace} target="_blank">aqui</a></h6>
+                            </div>
+                            <div>
+                                <h6>Link PDF: <a href={boleta11.pdf} target="_blank">aqui</a></h6>
+                            </div>
+                            <div>
+                                <h6>Link XML: <a href={boleta11.xml} target="_blank">aqui</a></h6>
+                            </div>
                             <div>
                             </div>
                         </div>
