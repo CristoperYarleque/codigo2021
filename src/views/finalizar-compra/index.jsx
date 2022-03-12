@@ -165,8 +165,9 @@ export default function FinalizarCompra() {
         data.estado_id = "1"
 
         const res = await facturacion(comprobante)
-        data.idBoleta = res.comprobante._id
-        
+
+        data.idBoleta = await res.comprobante._id
+        console.log(data);
         delete data.nroTarjeta
         delete data.fechaVencimiento
         delete data.ccv
