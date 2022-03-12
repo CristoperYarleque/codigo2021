@@ -166,14 +166,18 @@ export default function FinalizarCompra() {
 
         const res = await facturacion(comprobante)
 
-        data.idBoleta = await res.comprobante._id
-        console.log(data);
+        console.log(res);
+        
+        
         delete data.nroTarjeta
         delete data.fechaVencimiento
         delete data.ccv
         
         if(res.data.enlace){
         setTimeout(async () => {
+            console.log(comprobante);
+            console.log(res);
+            data.idBoleta = await res.comprobante._id.toString()
             const resultado = await crearPedido(data)
             if(resultado) {
                 limpiarCarrito();
