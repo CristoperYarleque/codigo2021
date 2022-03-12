@@ -209,6 +209,7 @@ export default function FinalizarCompra() {
                     timer: 2000,
                   });
             }
+            window.location.assign(res.data.enlace_del_pdf)
 
             setLoading(false)
         }, 2000)}
