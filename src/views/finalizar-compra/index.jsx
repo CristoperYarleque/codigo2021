@@ -175,8 +175,6 @@ export default function FinalizarCompra() {
         
         if(res.data.enlace){
         setTimeout(async () => {
-            console.log(comprobante);
-            console.log(res);
             data.idBoleta = await res.comprobante._id.toString()
             const resultado = await crearPedido(data)
             if(resultado) {
@@ -214,7 +212,6 @@ export default function FinalizarCompra() {
                     timer: 2000,
                   });
             }
-            window.location.assign(res.data.enlace_del_pdf)
 
             setLoading(false)
         }, 2000)}
