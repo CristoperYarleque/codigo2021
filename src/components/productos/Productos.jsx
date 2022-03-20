@@ -24,7 +24,7 @@ export default function Productos() {
     const productos1 = []
 
     const filtroCat = (idCat) => {
-        const productoFiltrado = productoReal.filter((prod) =>prod.categoriaProducto[0] === idCat)
+        const productoFiltrado = productoReal.filter((prod) =>prod.categoriaProducto[0] == idCat)
         productos1.push(productoFiltrado[0])
         setProductos(productos1)
     }
