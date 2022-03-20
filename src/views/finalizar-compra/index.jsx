@@ -163,6 +163,7 @@ export default function FinalizarCompra() {
         data.juegos = carritoAEnviar
         data.total = subTotal
         data.estado_id = "1"
+        console.log(comprobante);
 
         const res = await facturacion(comprobante)
 
