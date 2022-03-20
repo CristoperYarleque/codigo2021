@@ -53,7 +53,7 @@ export default function FinalizarCompra() {
     
     const [correo,setCorreo] = useState()
     const [comprobante,setComprobante] = useState({
-        items: datos,
+        items: data11,
         cliente: "",
         tipo: "BOLETA",
         tipo_documento:"DNI",
